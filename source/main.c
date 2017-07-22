@@ -35,7 +35,7 @@ int main(void) {
 	printDictionary(dictionary);
 	printf("\nNumero di parole salvate nel dizionario : %d\n\n", countWord(dictionary));
 
-	cancWord(&dictionary, getWordAt(dictionary, 21));
+	cancWord(&dictionary, getWordAt(dictionary, 4));
 	cancWord(&dictionary, getWordAt(dictionary, 1));
 	cancWord(&dictionary, getWordAt(dictionary, 0));
 	printf("\nSTAMPA DEL DIZIONARIO dopo 3 cancellazioni:\n");

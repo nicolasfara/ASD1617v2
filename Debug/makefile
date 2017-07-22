@@ -23,19 +23,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: ASD1617
+all: ASD1617v2
 
 # Tool invocations
-ASD1617: $(OBJS) $(USER_OBJS)
+ASD1617v2: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -lm  -o "ASD1617" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc -lm  -o "ASD1617v2" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) ASD1617
+	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) ASD1617v2
 	-@echo ' '
 
 .PHONY: all clean dependents

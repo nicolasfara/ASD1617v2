@@ -37,7 +37,7 @@ HNode * extract_smaller_one(HNode **);
 void fill_table(unsigned int *, HNode *, unsigned int);
 int compress_node(NODO *, FILE *, unsigned int *);
 void compress_string(char *, FILE *, unsigned int *);
-NODO *find_index_word(NODO *, int, int *);
+NODO* find_index_word(NODO *, int, int *);
 int decompress_file(FILE *, NODO **, HNode *);
 int search_in_node(NODO *, MSWNode *, char *);
 int levenshtein(const char *, int, const char *, int);
@@ -170,8 +170,9 @@ char* getWordAt(NODO *n, int index){
 		return NULL;
 
 	int cont = 0;
+	NODO* tmp = NULL;
 
-	NODO* tmp = find_index_word(n, index, &cont);
+	tmp = find_index_word(n, index, &cont);
 
 	return tmp->word;
 
@@ -526,15 +527,14 @@ void compress_string(char *n_string, FILE *output, unsigned int *code_table) {
 
 NODO* find_index_word(NODO* n, int index, int *counter){
 
-	if(index == *counter)
-		return n;
 
-	if(n == NULL)
-		return NULL;
 
 	find_index_word(n->left, index, counter);
 	(*counter)++;
+	if(index == *counter)
+		return n;
 	find_index_word(n->right, index, counter);
+
 
 }
 
@@ -747,13 +747,13 @@ void rb_delete(NODO** root, NODO* z) {
 	NODO* y = z;
 	NODO* x;
 	bool original = y->isBlack;
-	//controllo se il iglio destro � la sentinella
-	if (z->left == sentinel && z->right != NULL) {
+	//controllo se il figlio destro � la sentinella
+	if (z->left == sentinel) {
 		x = z->right;
 		rb_trasplant(root, z, z->right);
 	}
 	//Controllo se il figlio sinsitro � sentinella
-	else if (z->right == sentinel && z->left != NULL) {
+	else if (z->right == sentinel) {
 		x = z->left;
 		rb_trasplant(root, z, z->left);
 	}
@@ -872,7 +872,7 @@ void rb_deleteFixUp(NODO** root, NODO * x) {
 
 NODO* treeMinimum(NODO* x) {
 	//Scorro fino al minimo
-	while (x->left != sentinel || x->left != NULL)
+	while (x->left != sentinel)
 		x = x->left;
 
 	return x;
