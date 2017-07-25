@@ -8,6 +8,7 @@
 #include "lib1617.h"
 
 NODO *sentinel = NULL; //Sentinella per le foglie e padre della radice
+unsigned short count_find = 0;
 
 						//   A	 B	 C	 D	  E	  F	  G	  H	  I	  J  K  L   M   N   O
 int letter_frequencies[] = { 81, 15, 28, 43, 128, 23, 20, 61, 71, 2, 1, 40, 24, 69, 76,
@@ -37,7 +38,7 @@ HNode * extract_smaller_one(HNode **);
 void fill_table(unsigned int *, HNode *, unsigned int);
 int compress_node(NODO *, FILE *, unsigned int *);
 void compress_string(char *, FILE *, unsigned int *);
-NODO* find_index_word(NODO *, int, int *);
+void find_index_word(NODO *, int, NODO **);
 int decompress_file(FILE *, NODO **, HNode *);
 int search_in_node(NODO *, MSWNode *, char *);
 int levenshtein(const char *, int, const char *, int);
@@ -165,17 +166,15 @@ int cancWord(NODO ** dictionary, char * word)
 
 char* getWordAt(NODO *n, int index){
 
-	//Check if the number of node is < index
 	if(countWord(n) < index)
 		return NULL;
 
-	int cont = 0;
+	count_find = 0;
 	NODO* tmp = NULL;
 
-	tmp = find_index_word(n, index, &cont);
+	find_index_word(n, index, &tmp);
 
 	return tmp->word;
-
 }
 
 /*char *getWordAt(NODO *n, int index) {
@@ -525,17 +524,17 @@ void compress_string(char *n_string, FILE *output, unsigned int *code_table) {
 	return find_index_word(n->right, index, counter_pt);		//ALTRIMENTI RESTITUISCO  QUELLO CHE MI PASSA IL FIGLIO DESTRO
 }*/
 
-NODO* find_index_word(NODO* n, int index, int *counter){
+void find_index_word(NODO* n, int index, NODO** nthnode){
 
+	if(n == sentinel)
+		return;
 
-
-	find_index_word(n->left, index, counter);
-	(*counter)++;
-	if(index == *counter)
-		return n;
-	find_index_word(n->right, index, counter);
-
-
+	find_index_word(n->left, index, nthnode);
+	if(count_find++ == index){
+		*nthnode = n;
+		return;
+	}
+	find_index_word(n->right, index, nthnode);
 }
 
 int decompress_file(FILE *input, NODO **dict_root, HNode *tree) {
